@@ -1,0 +1,8 @@
+/.vs
+/ApiClient/bin
+/ApiClient/obj
+/GrpcService1/obj
+/GrpcService1/bin
+/WeatherServer/obj
+/WeatherServer/bin
+/.idea

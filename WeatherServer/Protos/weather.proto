@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/Timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "WeatherServer.Protos";
+
+
+service Weather {
+  rpc Add (WeatherRequest) returns (google.protobuf.Empty);
+  rpc GetAll (google.protobuf.Empty) returns (WeatherResponse);
+  rpc Update (WeatherEntity) returns (google.protobuf.Empty);
+  rpc Delete (WeatherDeleteRequest) returns (google.protobuf.Empty);
+}
+
+message WeatherRequest {
+    google.protobuf.Timestamp date = 1;
+    string description = 2;
+    int32 temperature = 3;
+}
+
+message WeatherResponse {
+    string errors = 1;
+    repeated WeatherEntity weathers = 2;
+}
+
+message WeatherEntity {
+    int32 id = 1;
+    google.protobuf.Timestamp date = 2;
+    string description = 3;
+    int32 temperature = 4;
+}
+
+message WeatherDeleteRequest {
+    int32 id = 1;
+}
