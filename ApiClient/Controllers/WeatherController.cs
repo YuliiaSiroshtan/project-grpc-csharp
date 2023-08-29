@@ -6,11 +6,11 @@ namespace ApiClient.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+public class WeatherController : ControllerBase
 {
     private readonly IWeatherService _weatherService;
 
-    public WeatherForecastController(
+    public WeatherController(
         IWeatherService weatherService)
     {
         _weatherService = weatherService;
