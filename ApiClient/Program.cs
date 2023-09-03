@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks();
 
 var weatherServiceOptions = OptionsExtensions.LoadOptions<WeatherServerOptions, WeatherServerOptions.Validator>(
     builder.Configuration,
@@ -32,7 +33,8 @@ builder.Services
         var provider = serviceProvider.GetRequiredService<ITokenProvider>();
         var token = await provider.GetTokenAsync(context.CancellationToken);
         metadata.Add(HeaderNames.Authorization, $"Bearer {token}");
-    });
+    })
+    .ConfigureChannel(o => o.UnsafeUseInsecureChannelCallCredentials = true);
 
 builder.Services.AddScoped<ITokenProvider, AppTokenProvider>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
@@ -45,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapHealthChecks("/healthz");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

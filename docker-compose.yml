@@ -1,0 +1,18 @@
+﻿version: '3.8'
+
+services:
+  weatherserver:
+    container_name: weather-service
+    build:
+      context: .
+      dockerfile: WeatherServer/Dockerfile
+
+  apiclient:
+    image: apiclient
+    env_file:
+      - ./ApiClient/.env
+    build:
+      context: .
+      dockerfile: ApiClient/Dockerfile
+    ports:
+      - "5003:80"
