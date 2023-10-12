@@ -38,7 +38,7 @@ builder.Services
 
 builder.Services.AddScoped<ITokenProvider, AppTokenProvider>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -47,6 +47,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(o =>
+{
+    o.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+});
 app.MapHealthChecks("/healthz");
 app.UseHttpsRedirection();
 

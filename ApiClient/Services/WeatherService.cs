@@ -17,6 +17,25 @@ public class WeatherService : IWeatherService
 
     public async Task<WeatherApiResponse> GetAllAsync()
     {
+        return new WeatherApiResponse()
+        {
+            Entities = new List<WeatherApiEntity>
+            {
+                new()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Description = "Test",
+                    Temperature = 10
+                },
+                new()
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    Description = "Test",
+                    Temperature = 10
+                },
+            }
+        };
+
         var response = await _client.GetAllAsync(new Empty());
 
         return new WeatherApiResponse

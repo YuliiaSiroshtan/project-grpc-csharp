@@ -1,3 +1,4 @@
+using System.Net;
 using ApiClient.Models;
 using ApiClient.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ApiClient.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("weathers")]
 public class WeatherController : ControllerBase
 {
     private readonly IWeatherService _weatherService;
@@ -17,7 +18,8 @@ public class WeatherController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> Get()
+    [ProducesResponseType(typeof(WeatherApiResponse), StatusCodes.Status200OK)]
+    public async Task<ActionResult<WeatherApiResponse>> Get()
     {
         return Ok(await _weatherService.GetAllAsync());
     }
