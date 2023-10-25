@@ -6,7 +6,8 @@
       "launchBrowser": false,
       "applicationUrl": "http://localhost:5293",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings": "Host=127.0.0.1;port=54325;User ID=pt_user;Password=TAKsazGYg7I0NLMRBNXJ;Database=weather_db"
       }
     },
     "https": {

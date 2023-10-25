@@ -1,12 +1,13 @@
-using System.Net;
 using ApiClient.Models;
 using ApiClient.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiClient.Controllers;
 
 [ApiController]
 [Route("weathers")]
+[Authorize]
 public class WeatherController : ControllerBase
 {
     private readonly IWeatherService _weatherService;

@@ -4,7 +4,7 @@ namespace ApiClient.Options;
 
 public class WeatherServerOptions : BaseOptions
 {
-    public override string SectionName => "WhetherService";
+    public override string SectionName => "WeatherService";
 
     public string? Url { get; set; }
 
@@ -14,7 +14,7 @@ public class WeatherServerOptions : BaseOptions
         {
             RuleFor(x => x.Url)
                 .NotNull()
-                .WithMessage($"{nameof(WeatherServerOptions)}.{nameof(WeatherServerOptions.Url)} is required.");
+                .WithMessage($"{nameof(WeatherServerOptions)}.{nameof(Url)} is required.");
         }
     }
 }
