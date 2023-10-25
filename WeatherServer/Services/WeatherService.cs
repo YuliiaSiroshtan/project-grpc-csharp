@@ -30,7 +30,7 @@ public class WeatherService : Weather.WeatherBase
 
     public override Task<WeatherResponse> GetAll(Empty request, ServerCallContext context)
     {
-        return Task.FromResult(_weatherRepository.GetAll());
+        return _weatherRepository.GetAll();
     }
 
     public override Task<Empty> Update(WeatherEntity request, ServerCallContext context)

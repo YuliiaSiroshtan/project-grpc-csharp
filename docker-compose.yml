@@ -1,6 +1,15 @@
 ﻿version: '3.8'
 
 services:
+  database:
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - database.env # configure postgres
+    ports:
+      - 54325:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+  
   weatherserver:
     container_name: weather-service
     build:
@@ -16,3 +25,6 @@ services:
       dockerfile: ApiClient/Dockerfile
     ports:
       - "5003:80"
+        
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose

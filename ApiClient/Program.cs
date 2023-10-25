@@ -4,6 +4,8 @@ using ApiClient.Options;
 using ApiClient.Protos;
 using ApiClient.Services;
 using dotenv.net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,6 @@ DotEnv.Load();
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
@@ -39,6 +40,25 @@ builder.Services
 builder.Services.AddScoped<ITokenProvider, AppTokenProvider>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddCors();
+
+IdentityModelEventSource.ShowPII = true;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:5001";
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters.ValidateAudience = false;
+        options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+    });
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "api1");
+    })
+);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -53,9 +73,11 @@ app.UseCors(o =>
         .AllowAnyMethod()
         .AllowAnyOrigin();
 });
+
 app.MapHealthChecks("/healthz");
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
